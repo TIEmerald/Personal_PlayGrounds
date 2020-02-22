@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B024013201002EAD92 /* AppDelegate.swift */; };
 		20EB29B324013201002EAD92 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B224013201002EAD92 /* SceneDelegate.swift */; };
-		20EB29B524013201002EAD92 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B424013201002EAD92 /* ContentView.swift */; };
+		20EB29B524013201002EAD92 /* ProjectOneContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B424013201002EAD92 /* ProjectOneContentView.swift */; };
 		20EB29B724013202002EAD92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20EB29B624013202002EAD92 /* Assets.xcassets */; };
 		20EB29BA24013202002EAD92 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20EB29B924013202002EAD92 /* Preview Assets.xcassets */; };
 		20EB29BD24013202002EAD92 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20EB29BB24013202002EAD92 /* LaunchScreen.storyboard */; };
@@ -38,7 +38,7 @@
 		20EB29AD24013201002EAD92 /* Personal_PlayGrounds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Personal_PlayGrounds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20EB29B024013201002EAD92 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20EB29B224013201002EAD92 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		20EB29B424013201002EAD92 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		20EB29B424013201002EAD92 /* ProjectOneContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOneContentView.swift; sourceTree = "<group>"; };
 		20EB29B624013202002EAD92 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20EB29B924013202002EAD92 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		20EB29BC24013202002EAD92 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -99,9 +99,9 @@
 		20EB29AF24013201002EAD92 /* Personal_PlayGrounds */ = {
 			isa = PBXGroup;
 			children = (
+				20EB29E02401383C002EAD92 /* Project_One_Stopwatch */,
 				20EB29B024013201002EAD92 /* AppDelegate.swift */,
 				20EB29B224013201002EAD92 /* SceneDelegate.swift */,
-				20EB29B424013201002EAD92 /* ContentView.swift */,
 				20EB29B624013202002EAD92 /* Assets.xcassets */,
 				20EB29BB24013202002EAD92 /* LaunchScreen.storyboard */,
 				20EB29BE24013202002EAD92 /* Info.plist */,
@@ -134,6 +134,14 @@
 				20EB29D424013202002EAD92 /* Info.plist */,
 			);
 			path = Personal_PlayGroundsUITests;
+			sourceTree = "<group>";
+		};
+		20EB29E02401383C002EAD92 /* Project_One_Stopwatch */ = {
+			isa = PBXGroup;
+			children = (
+				20EB29B424013201002EAD92 /* ProjectOneContentView.swift */,
+			);
+			path = Project_One_Stopwatch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,7 +277,7 @@
 			files = (
 				20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */,
 				20EB29B324013201002EAD92 /* SceneDelegate.swift in Sources */,
-				20EB29B524013201002EAD92 /* ContentView.swift in Sources */,
+				20EB29B524013201002EAD92 /* ProjectOneContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
