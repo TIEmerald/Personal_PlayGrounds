@@ -8,14 +8,40 @@
 
 import SwiftUI
 
+enum LapType {
+    case regular
+    case shortest
+    case longest
+}
+
 struct StopwatchData {
     var absoluteStartTime: TimeInterval?
     var currentTime: TimeInterval = 0
     var additionalTime: TimeInterval = 0
+    var lastLapEnd: TimeInterval = 0
+    var _laps: [(TimeInterval, LapType)] = []
+    var laps: [(TimeInterval, LapType)] {
+        guard totalTime > 0 else { return [] }
+        return _laps + [(currentLapTime, .regular)]
+    }
+    
+    var currentLapTime: TimeInterval {
+        totalTime - lastLapEnd
+    }
     
     var totalTime: TimeInterval {
         guard let start = absoluteStartTime else { return additionalTime }
         return additionalTime + currentTime - start
+    }
+    
+    mutating func lap() {
+        let lapTimes = _laps.map { $0.0 } + [currentLapTime]
+        if let shortest = lapTimes.min(), let longest = lapTimes.max(), shortest != longest {
+            _laps = lapTimes.map { ($0, $0 == shortest ? .shortest : ($0 == longest ? .longest : .regular ))}
+        } else {
+            _laps = lapTimes.map { ($0, .regular) }
+        }
+        lastLapEnd = totalTime
     }
     
     mutating func start(at time: TimeInterval) {
@@ -39,6 +65,12 @@ final class Stopwatch: ObservableObject {
     
     var isRunning: Bool {
         data.absoluteStartTime != nil
+    }
+    
+    var laps: [(TimeInterval, LapType)] { data.laps }
+    
+    func lap() {
+        data.lap()
     }
     
     func start() {
@@ -91,6 +123,19 @@ extension TimeInterval {
     }
 }
 
+extension LapType {
+    var color: Color {
+        switch self {
+        case .regular:
+            return .black
+        case .shortest:
+            return .green
+        case .longest:
+            return .red
+        }
+    }
+}
+
 extension EnvironmentValues {
     var size: CGSize? {
         get { self[SizeEnvironmentKey.self] }
@@ -100,6 +145,10 @@ extension EnvironmentValues {
 }
 
 extension View {
+    
+    func visible(_ v: Bool) -> some View {
+        self.opacity(v ? 1 : 0)
+    }
     
     func equalSize() -> some View {
         self.modifier(EqualSize())
@@ -120,19 +169,46 @@ struct ProjectOneContentView: View {
             Text(stopwatch.total.formatted)
                 .font(Font.system(size: 64, weight: .thin).monospacedDigit())
             HStack {
-                Button(action: { self.stopwatch.reset() }) {
-                    Text("Reset")
+                ZStack {
+                    Button(action: { self.stopwatch.lap() }) {
+                        Text("Lap")
+                    }
+                    .foregroundColor(.gray)
+                    .visible(stopwatch.isRunning)
+                    Button(action: { self.stopwatch.reset() }) {
+                        Text("Reset")
+                    }
+                    .foregroundColor(.gray)
+                    .visible(!stopwatch.isRunning)
                 }
-                .foregroundColor(.gray)
                 Spacer()
-                Button(action: { self.stopwatch.isRunning ? self.stopwatch.stop() : self.stopwatch.start() }) {
-                    Text(self.stopwatch.isRunning ? "Stop" : "Start")
+                ZStack {
+                    Button(action: { self.stopwatch.stop() }) {
+                        Text("Stop")
+                    }
+                    .foregroundColor(.red)
+                    .visible(stopwatch.isRunning)
+                    Button(action: { self.stopwatch.start() }) {
+                        Text("Start")
+                    }
+                    .foregroundColor(.green)
+                    .visible(!stopwatch.isRunning)
                 }
-                .foregroundColor(self.stopwatch.isRunning ? .red : .green)
             }
             .equalSizes()
             .padding(.horizontal)
             .buttonStyle(CircleStyle())
+            List {
+                ForEach(stopwatch.laps.enumerated().reversed(), id: \.offset) { value in
+                    HStack {
+                        Text("Lap \(value.offset + 1)")
+                        Spacer()
+                        Text(value.element.0.formatted)
+                            .font(Font.body.monospacedDigit())
+                    }
+                    .foregroundColor(value.element.1.color)
+                }
+            }
         }
     }
 }
