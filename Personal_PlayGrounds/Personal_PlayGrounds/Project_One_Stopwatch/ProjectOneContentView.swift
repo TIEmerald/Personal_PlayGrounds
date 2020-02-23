@@ -8,8 +8,87 @@
 
 import SwiftUI
 
+struct StopwatchData {
+    var absoluteStartTime: TimeInterval?
+    var currentTime: TimeInterval = 0
+    var additionalTime: TimeInterval = 0
+    
+    var totalTime: TimeInterval {
+        guard let start = absoluteStartTime else { return additionalTime }
+        return additionalTime + currentTime - start
+    }
+    
+    mutating func start(at time: TimeInterval) {
+        currentTime = time
+        absoluteStartTime = time
+    }
+    
+    mutating func stop() {
+        additionalTime = totalTime
+        absoluteStartTime = nil
+    }
+}
+
+final class Stopwatch: ObservableObject {
+    @Published private var data = StopwatchData()
+    private var timer: Timer?
+    
+    var total: TimeInterval {
+        data.totalTime
+    }
+    
+    var isRunning: Bool {
+        data.absoluteStartTime != nil
+    }
+    
+    func start() {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { [unowned self] timer in
+            self.data.currentTime = Date().timeIntervalSinceReferenceDate
+        })
+        data.start(at: Date().timeIntervalSinceReferenceDate)
+    }
+    
+    func stop() {
+        timer?.invalidate()
+        timer = nil
+        data.stop()
+    }
+    
+    func reset() {
+        stop()
+        data = StopwatchData()
+    }
+    
+    deinit {
+        stop()
+    }
+}
+
 struct SizeEnvironmentKey: EnvironmentKey {
     static let defaultValue: CGSize? = nil
+}
+
+/// Ensure formatters are not created every time it be called.
+let formatter: DateComponentsFormatter = {
+    let f = DateComponentsFormatter()
+    f.allowedUnits = [.minute, .second]
+    f.zeroFormattingBehavior = .pad
+    return f
+}()
+let numberFormatter: NumberFormatter = {
+    let f = NumberFormatter()
+    f.minimumFractionDigits = 2
+    f.maximumFractionDigits = 2
+    f.maximumIntegerDigits  = 0
+    f.alwaysShowsDecimalSeparator = true
+    return f
+}()
+
+extension TimeInterval {
+    var formatted: String {
+        let ms = self.truncatingRemainder(dividingBy: 1)
+        return formatter.string(from: self)! + numberFormatter.string(from: NSNumber(value: ms))!
+    }
 }
 
 extension EnvironmentValues {
@@ -33,21 +112,28 @@ extension View {
 }
 
 struct ProjectOneContentView: View {
+    
+    @ObservedObject var stopwatch = Stopwatch()
+    
     var body: some View {
-        HStack {
-            Button(action: {}) {
-                Text("Reset")
+        VStack {
+            Text(stopwatch.total.formatted)
+                .font(Font.system(size: 64, weight: .thin).monospacedDigit())
+            HStack {
+                Button(action: { self.stopwatch.reset() }) {
+                    Text("Reset")
+                }
+                .foregroundColor(.gray)
+                Spacer()
+                Button(action: { self.stopwatch.isRunning ? self.stopwatch.stop() : self.stopwatch.start() }) {
+                    Text(self.stopwatch.isRunning ? "Stop" : "Start")
+                }
+                .foregroundColor(self.stopwatch.isRunning ? .red : .green)
             }
-            .foregroundColor(.red)
-            
-            Button(action: {}) {
-                Text("Start New")
-            }
-            .foregroundColor(.green)
+            .equalSizes()
+            .padding(.horizontal)
+            .buttonStyle(CircleStyle())
         }
-        .equalSizes()
-        .padding()
-        .buttonStyle(CircleStyle())
     }
 }
 
