@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2084E5762414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E5752414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift */; };
 		20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B024013201002EAD92 /* AppDelegate.swift */; };
 		20EB29B324013201002EAD92 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B224013201002EAD92 /* SceneDelegate.swift */; };
 		20EB29B524013201002EAD92 /* ProjectOneContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B424013201002EAD92 /* ProjectOneContentView.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2084E5752414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOne_Data_Stopwatch.swift; sourceTree = "<group>"; };
 		20EB29AD24013201002EAD92 /* Personal_PlayGrounds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Personal_PlayGrounds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20EB29B024013201002EAD92 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20EB29B224013201002EAD92 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +78,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2084E5742414E29E0098FF5D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2084E5752414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		20EB29A424013201002EAD92 = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +149,7 @@
 		20EB29E02401383C002EAD92 /* Project_One_Stopwatch */ = {
 			isa = PBXGroup;
 			children = (
+				2084E5742414E29E0098FF5D /* Models */,
 				20EB29B424013201002EAD92 /* ProjectOneContentView.swift */,
 			);
 			path = Project_One_Stopwatch;
@@ -275,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2084E5762414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift in Sources */,
 				20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */,
 				20EB29B324013201002EAD92 /* SceneDelegate.swift in Sources */,
 				20EB29B524013201002EAD92 /* ProjectOneContentView.swift in Sources */,

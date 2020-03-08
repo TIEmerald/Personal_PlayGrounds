@@ -8,52 +8,21 @@
 
 import SwiftUI
 
-enum LapType {
-    case regular
-    case shortest
-    case longest
-}
-
-struct StopwatchData {
-    var absoluteStartTime: TimeInterval?
-    var currentTime: TimeInterval = 0
-    var additionalTime: TimeInterval = 0
-    var lastLapEnd: TimeInterval = 0
-    var _laps: [(TimeInterval, LapType)] = []
-    var laps: [(TimeInterval, LapType)] {
-        guard totalTime > 0 else { return [] }
-        return _laps + [(currentLapTime, .regular)]
-    }
-    
-    var currentLapTime: TimeInterval {
-        totalTime - lastLapEnd
-    }
-    
-    var totalTime: TimeInterval {
-        guard let start = absoluteStartTime else { return additionalTime }
-        return additionalTime + currentTime - start
-    }
-    
-    mutating func lap() {
-        let lapTimes = _laps.map { $0.0 } + [currentLapTime]
-        if let shortest = lapTimes.min(), let longest = lapTimes.max(), shortest != longest {
-            _laps = lapTimes.map { ($0, $0 == shortest ? .shortest : ($0 == longest ? .longest : .regular ))}
-        } else {
-            _laps = lapTimes.map { ($0, .regular) }
-        }
-        lastLapEnd = totalTime
-    }
-    
-    mutating func start(at time: TimeInterval) {
-        currentTime = time
-        absoluteStartTime = time
-    }
-    
-    mutating func stop() {
-        additionalTime = totalTime
-        absoluteStartTime = nil
-    }
-}
+/// Ensure formatters are not created every time it be called.
+let formatter: DateComponentsFormatter = {
+    let f = DateComponentsFormatter()
+    f.allowedUnits = [.minute, .second]
+    f.zeroFormattingBehavior = .pad
+    return f
+}()
+let numberFormatter: NumberFormatter = {
+    let f = NumberFormatter()
+    f.minimumFractionDigits = 2
+    f.maximumFractionDigits = 2
+    f.maximumIntegerDigits  = 0
+    f.alwaysShowsDecimalSeparator = true
+    return f
+}()
 
 final class Stopwatch: ObservableObject {
     @Published private var data = StopwatchData()
@@ -96,26 +65,6 @@ final class Stopwatch: ObservableObject {
     }
 }
 
-struct SizeEnvironmentKey: EnvironmentKey {
-    static let defaultValue: CGSize? = nil
-}
-
-/// Ensure formatters are not created every time it be called.
-let formatter: DateComponentsFormatter = {
-    let f = DateComponentsFormatter()
-    f.allowedUnits = [.minute, .second]
-    f.zeroFormattingBehavior = .pad
-    return f
-}()
-let numberFormatter: NumberFormatter = {
-    let f = NumberFormatter()
-    f.minimumFractionDigits = 2
-    f.maximumFractionDigits = 2
-    f.maximumIntegerDigits  = 0
-    f.alwaysShowsDecimalSeparator = true
-    return f
-}()
-
 extension TimeInterval {
     var formatted: String {
         let ms = self.truncatingRemainder(dividingBy: 1)
@@ -136,14 +85,6 @@ extension LapType {
     }
 }
 
-extension EnvironmentValues {
-    var size: CGSize? {
-        get { self[SizeEnvironmentKey.self] }
-        set { self[SizeEnvironmentKey.self] = newValue }
-    }
-    
-}
-
 extension View {
     
     func visible(_ v: Bool) -> some View {
@@ -160,59 +101,6 @@ extension View {
     
 }
 
-struct ProjectOneContentView: View {
-    
-    @ObservedObject var stopwatch = Stopwatch()
-    
-    var body: some View {
-        VStack {
-            Text(stopwatch.total.formatted)
-                .font(Font.system(size: 64, weight: .thin).monospacedDigit())
-            HStack {
-                ZStack {
-                    Button(action: { self.stopwatch.lap() }) {
-                        Text("Lap")
-                    }
-                    .foregroundColor(.gray)
-                    .visible(stopwatch.isRunning)
-                    Button(action: { self.stopwatch.reset() }) {
-                        Text("Reset")
-                    }
-                    .foregroundColor(.gray)
-                    .visible(!stopwatch.isRunning)
-                }
-                Spacer()
-                ZStack {
-                    Button(action: { self.stopwatch.stop() }) {
-                        Text("Stop")
-                    }
-                    .foregroundColor(.red)
-                    .visible(stopwatch.isRunning)
-                    Button(action: { self.stopwatch.start() }) {
-                        Text("Start")
-                    }
-                    .foregroundColor(.green)
-                    .visible(!stopwatch.isRunning)
-                }
-            }
-            .equalSizes()
-            .padding(.horizontal)
-            .buttonStyle(CircleStyle())
-            List {
-                ForEach(stopwatch.laps.enumerated().reversed(), id: \.offset) { value in
-                    HStack {
-                        Text("Lap \(value.offset + 1)")
-                        Spacer()
-                        Text(value.element.0.formatted)
-                            .font(Font.body.monospacedDigit())
-                    }
-                    .foregroundColor(value.element.1.color)
-                }
-            }
-        }
-    }
-}
-
 struct SizeKey: PreferenceKey {
     static let defaultValue: [CGSize] = []
     static func reduce(value: inout [CGSize], nextValue: () -> [CGSize]) {
@@ -220,10 +108,19 @@ struct SizeKey: PreferenceKey {
     }
 }
 
+struct SizeEnvironmentKey: EnvironmentKey {
+    static let defaultValue: CGSize? = nil
+}
+
+extension EnvironmentValues {
+    var size: CGSize? {
+        get { self[SizeEnvironmentKey.self] }
+        set { self[SizeEnvironmentKey.self] = newValue }
+    }
+}
+
 fileprivate struct EqualSize: ViewModifier {
-    
     @Environment(\.size) private var size
-    
     func body(content: Content) -> some View {
         content
             .overlay(GeometryReader { proxy in
@@ -281,6 +178,59 @@ struct CircleStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label.modifier(ButtonCircle(isPressed: configuration.isPressed))
         
+    }
+}
+
+struct ProjectOneContentView: View {
+    
+    @ObservedObject var stopwatch = Stopwatch()
+    
+    var body: some View {
+        VStack {
+            Text(stopwatch.total.formatted)
+                .font(Font.system(size: 64, weight: .thin).monospacedDigit())
+            HStack {
+                ZStack {
+                    Button(action: { self.stopwatch.lap() }) {
+                        Text("Lap")
+                    }
+                    .foregroundColor(.gray)
+                    .visible(stopwatch.isRunning)
+                    Button(action: { self.stopwatch.reset() }) {
+                        Text("Reset")
+                    }
+                    .foregroundColor(.gray)
+                    .visible(!stopwatch.isRunning)
+                }
+                Spacer()
+                ZStack {
+                    Button(action: { self.stopwatch.stop() }) {
+                        Text("Stop")
+                    }
+                    .foregroundColor(.red)
+                    .visible(stopwatch.isRunning)
+                    Button(action: { self.stopwatch.start() }) {
+                        Text("Start")
+                    }
+                    .foregroundColor(.green)
+                    .visible(!stopwatch.isRunning)
+                }
+            }
+            .equalSizes()
+            .padding(.horizontal)
+            .buttonStyle(CircleStyle())
+            List {
+                ForEach(stopwatch.laps.enumerated().reversed(), id: \.offset) { value in
+                    HStack {
+                        Text("Lap \(value.offset + 1)")
+                        Spacer()
+                        Text(value.element.0.formatted)
+                            .font(Font.body.monospacedDigit())
+                    }
+                    .foregroundColor(value.element.1.color)
+                }
+            }
+        }
     }
 }
 
