@@ -8,6 +8,16 @@
 
 import SwiftUI
 
+extension CGPoint {
+    init(angle: Angle, distance: CGFloat) {
+        self = CGPoint(x: CGFloat(cos(angle.radians)) * distance, y: CGFloat(sin(angle.radians)) * distance)
+    }
+    
+    var size: CGSize {
+        CGSize(width: x, height: y)
+    }
+}
+
 extension CGRect {
     var center: CGPoint {
         CGPoint(x: midX, y: midY)
@@ -35,26 +45,65 @@ struct Pointer: Shape {
         }
     }
 }
-struct Clock: View {
-    var time: TimeInterval = 10
-    var lapTime: TimeInterval?
+
+struct Labels: View {
+    var labels: [Int]
+    
+    var body: some View {
+        GeometryReader { proxy in
+            ZStack {
+                ForEach(self.labels.indices) { idx in
+                    Text("\(self.labels[idx])")
+                        .offset(CGPoint(angle: .degrees(360 * Double(idx)/Double(self.labels.count) - 90), distance: proxy.size.width/2).size)
+                }
+            }
+        }
+    }
+}
+
+struct Ticks: View {
+    var majorTicks: Int
+    var subdivisions: Int
+    var majorHeight: CGFloat = 15
+    var totalTicks: Int { majorTicks * subdivisions }
     
     func tick(at tick: Int) -> some View {
         VStack {
             Rectangle()
                 .fill(Color.primary)
-                .opacity(tick % 20 == 0 ? 1 : 0.4)
-                .frame(width: 2, height: tick % 4 == 0 ? 15 : 7)
+                .opacity(tick % (5 * subdivisions) == 0 ? 1 : 0.4)
+                .frame(width: 2, height: tick % subdivisions == 0 ? majorHeight : majorHeight/2)
             Spacer()
-        }
-        .rotationEffect(Angle.degrees(Double(tick)/240 * 360))
+        }.rotationEffect(Angle.degrees(Double(tick)/Double(totalTicks) * 360))
     }
     
     var body: some View {
+        ForEach(0..<totalTicks) { tick in
+            self.tick(at: tick)
+        }
+    }
+}
+
+struct Clock: View {
+    var time: TimeInterval = 10
+    var lapTime: TimeInterval?
+    
+    var body: some View {
         ZStack {
-            ForEach(0..<240) { tick in
-                self.tick(at: tick)
+            Ticks(majorTicks: 60, subdivisions: 4)
+            Labels(labels: [60] + stride(from: 5, through: 55, by: 5))
+                .padding(40)
+                .font(.title)
+            ZStack {
+                Ticks(majorTicks: 30, subdivisions: 2, majorHeight: 10)
+                Labels(labels: [30] + stride(from: 5, through: 25, by: 5))
+                    .padding(20)
+                Pointer()
+                    .stroke(Color.orange, lineWidth: 1.5)
+                    .rotationEffect(Angle.degrees(Double(time) * 360/(60*30)))
             }
+            .frame(width: 90, height: 90)
+            .offset(y: -50)
             if lapTime != nil {
                 Pointer()
                     .stroke(Color.blue, lineWidth: 2)
@@ -65,6 +114,7 @@ struct Clock: View {
                 .rotationEffect(Angle.degrees(Double(time) * 360/60))
             Color.clear
         }
+        .aspectRatio(1, contentMode: .fit)
     }
 }
 
