@@ -9,50 +9,14 @@
 import Foundation
 import UIKit
 
-struct PTwoColor {
-    var r, g, b: UInt8
-    var a: UInt8 = 255
-}
-
-extension PTwoColor {
-    static let clear = PTwoColor(r: 0, g: 0, b: 0, a: 0)
-    static let black = PTwoColor(r: 0, g: 0, b: 0)
-    static let white = PTwoColor(r: 255, g: 255, b: 255)
-    static let gray = PTwoColor(r: 192, g: 192, b: 192)
-    static let red = PTwoColor(r: 255, g: 0, b: 0)
-    static let green = PTwoColor(r: 0, g: 255, b: 0)
-    static let blue = PTwoColor(r: 0, g: 0, b: 255)
-}
-
-struct Bitmap {
-    let width: Int
-    var pixels: [PTwoColor]
-    
-    var height: Int {
-        pixels.count / width
-    }
-    
-    init(width: Int, height: Int, color: PTwoColor) {
-        self.width = width
-        pixels = Array(repeating: color, count: width * height)
-    }
-    
-    subscript(x: Int, y: Int) -> PTwoColor {
-        get { pixels[y * width + x] }
-        set { pixels[y * width + x] = newValue }
-    }
-}
-
-struct Renderer {
-    var bitmap = Bitmap(width: 8, height: 8, color: .white)
-    
-    mutating func draw(x: Int) {
-        bitmap[x, 0] = PTwoColor.blue
-    }
-}
-
 class ProjectTwoContentViewController: UIViewController {
+    
     let imageView = UIImageView()
+    var player: Player = Player(
+        position: Vector(x: 4, y: 4),
+        velocity: Vector(x: 1, y: 1)
+    )
+    var previousTime: Double = CACurrentMediaTime()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,9 +27,11 @@ class ProjectTwoContentViewController: UIViewController {
     }
     
     @objc func update(_ displayLink: CADisplayLink) {
-        let x = Int(displayLink.timestamp) % 8
-        var renderer = Renderer()
-        renderer.draw(x: x)
+        var renderer = Renderer(width: 256, height: 256)
+        let timestep = displayLink.timestamp - previousTime
+        player.update(timestep: timestep)
+        previousTime = displayLink.timestamp
+        renderer.draw(player: player)
         imageView.image = UIImage(bitmap: renderer.bitmap)
     }
 }
