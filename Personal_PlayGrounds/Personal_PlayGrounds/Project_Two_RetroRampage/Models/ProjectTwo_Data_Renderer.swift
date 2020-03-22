@@ -77,7 +77,7 @@ struct Renderer {
                     min: min,
                     max: min + Vector(x: scale, y: scale)
                 )
-                bitmap.fill(rect: rect, color: .white)
+                bitmap.fill(rect: rect, color: .black)
             }
         }
         

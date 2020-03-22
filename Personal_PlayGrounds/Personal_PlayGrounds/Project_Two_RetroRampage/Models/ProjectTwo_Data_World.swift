@@ -14,6 +14,9 @@ struct World {
     
     mutating func update(timestep: Double, input: Vector) {
         player.update(timestep: timestep, input: input)
+        if let intersection = player.intersection(with: map) {
+            player.position += intersection
+        }
     }
 }
 

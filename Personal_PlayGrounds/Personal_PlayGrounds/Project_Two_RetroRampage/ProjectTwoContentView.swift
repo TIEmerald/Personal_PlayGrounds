@@ -20,12 +20,16 @@ class ProjectTwoContentViewController: UIViewController {
     
     let imageView = UIImageView()
     let panRecognizer = UIPanGestureRecognizer()
-    var world = World(player: Player(position: Vector(x: 4, y: 4), velocity: Vector(x: 0, y: 0)), map: loadMap())
+    let joystickRadius = 40.0
+    var world = World(player: Player(position: Vector(x: 2.5, y: 2.5), velocity: Vector(x: 0, y: 0)), map: loadMap())
     var previousTime: Double = CACurrentMediaTime()
 
     var joystickVector: Vector {
         let translation = panRecognizer.translation(in: view)
-        return Vector(x: Double(translation.x), y: Double(translation.y)) / 40
+        let vector = Vector(x: Double(translation.x), y: Double(translation.y))
+        let result = vector / max(joystickRadius, vector.length) // Added Limit to the jostick vector)
+        panRecognizer.setTranslation(CGPoint(x: result.x * joystickRadius, y: result.y * joystickRadius), in: view)
+        return result
     }
     
     override func viewDidLoad() {
