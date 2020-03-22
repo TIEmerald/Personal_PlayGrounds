@@ -56,6 +56,26 @@ extension Bitmap {
             }
         }
     }
+    
+    mutating func drawLine(from: Vector, to: Vector, color: PTwoColor) {
+        let difference = to - from
+        let stepCount: Int
+        let step: Vector
+        if abs(difference.x) > abs(difference.y) {
+            stepCount = Int(abs(difference.x).rounded(.up))
+            let sign: Double = difference.x > 0 ? 1 : -1
+            step = Vector(x: 1, y: difference.y/difference.x) * sign
+        } else {
+            stepCount = Int(abs(difference.y).rounded(.up))
+            let sign: Double = difference.y > 0 ? 1 : -1
+            step = Vector(x: difference.x/difference.y, y: 1) * sign
+        }
+        var position = from
+        for _ in 0..<stepCount {
+            self[Int(position.x), Int(position.y)] = color
+            position += step
+        }
+    }
 }
 
 struct Renderer {
@@ -82,5 +102,7 @@ struct Renderer {
         }
         
         bitmap.fill(rect: world.player.rect * scale, color: .blue)
+        let end = (world.player.position + world.player.direction * world.player.velocity.length) * scale
+        bitmap.drawLine(from: world.player.position * scale, to: end, color: .green)
     }
 }
