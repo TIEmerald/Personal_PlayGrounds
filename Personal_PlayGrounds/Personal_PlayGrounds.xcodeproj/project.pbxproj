@@ -12,6 +12,7 @@
 		2084E57C241657BF0098FF5D /* ProjectTwoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E57B241657BF0098FF5D /* ProjectTwoContentView.swift */; };
 		2084E57F24166F740098FF5D /* ProjectTwo_Data_Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E57E24166F740098FF5D /* ProjectTwo_Data_Renderer.swift */; };
 		2084E58124166FF90098FF5D /* ProjectTwo_Data_Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E58024166FF90098FF5D /* ProjectTwo_Data_Player.swift */; };
+		20921032241CF17F00497C74 /* ProjectOne_View_FlexibleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20921031241CF17F00497C74 /* ProjectOne_View_FlexibleText.swift */; };
 		20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B024013201002EAD92 /* AppDelegate.swift */; };
 		20EB29B324013201002EAD92 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B224013201002EAD92 /* SceneDelegate.swift */; };
 		20EB29B524013201002EAD92 /* ProjectOneContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B424013201002EAD92 /* ProjectOneContentView.swift */; };
@@ -45,6 +46,7 @@
 		2084E57B241657BF0098FF5D /* ProjectTwoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwoContentView.swift; sourceTree = "<group>"; };
 		2084E57E24166F740098FF5D /* ProjectTwo_Data_Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwo_Data_Renderer.swift; sourceTree = "<group>"; };
 		2084E58024166FF90098FF5D /* ProjectTwo_Data_Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwo_Data_Player.swift; sourceTree = "<group>"; };
+		20921031241CF17F00497C74 /* ProjectOne_View_FlexibleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOne_View_FlexibleText.swift; sourceTree = "<group>"; };
 		20EB29AD24013201002EAD92 /* Personal_PlayGrounds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Personal_PlayGrounds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20EB29B024013201002EAD92 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20EB29B224013201002EAD92 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		2084E5772414E4410098FF5D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				20921031241CF17F00497C74 /* ProjectOne_View_FlexibleText.swift */,
 				2084E5782414E47C0098FF5D /* ProjectOne_View_ClockView.swift */,
 			);
 			path = Views;
@@ -325,6 +328,7 @@
 				2084E5762414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift in Sources */,
 				2084E57C241657BF0098FF5D /* ProjectTwoContentView.swift in Sources */,
 				2084E5792414E47C0098FF5D /* ProjectOne_View_ClockView.swift in Sources */,
+				20921032241CF17F00497C74 /* ProjectOne_View_FlexibleText.swift in Sources */,
 				2084E57F24166F740098FF5D /* ProjectTwo_Data_Renderer.swift in Sources */,
 				20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */,
 				2084E58124166FF90098FF5D /* ProjectTwo_Data_Player.swift in Sources */,

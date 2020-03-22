@@ -189,7 +189,7 @@ struct ProjectOneContentView: View {
         VStack {
             Clock(time: stopwatch.total, lapTime: stopwatch.laps.last?.0)
             Text(stopwatch.total.formatted)
-                .font(Font.system(size: 64, weight: .thin).monospacedDigit())
+                .flexible({ Font.system(size: $0, weight: .thin).monospacedDigit() })
             HStack {
                 ZStack {
                     Button(action: { self.stopwatch.lap() }) {

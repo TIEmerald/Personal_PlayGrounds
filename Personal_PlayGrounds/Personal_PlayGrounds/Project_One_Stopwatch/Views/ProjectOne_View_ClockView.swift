@@ -118,7 +118,7 @@ struct Clock: View {
     }
 }
 
-struct ClockView_Previews: PreviewProvider {
+struct ClockView_ClockView_Previews: PreviewProvider {
     static var previews: some View {
         Clock()
             .background(Color.white)
