@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		202F3433242748810096A328 /* ProjectTwo_Data_World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202F3432242748810096A328 /* ProjectTwo_Data_World.swift */; };
 		2084E5762414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E5752414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift */; };
 		2084E5792414E47C0098FF5D /* ProjectOne_View_ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E5782414E47C0098FF5D /* ProjectOne_View_ClockView.swift */; };
 		2084E57C241657BF0098FF5D /* ProjectTwoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E57B241657BF0098FF5D /* ProjectTwoContentView.swift */; };
 		2084E57F24166F740098FF5D /* ProjectTwo_Data_Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E57E24166F740098FF5D /* ProjectTwo_Data_Renderer.swift */; };
 		2084E58124166FF90098FF5D /* ProjectTwo_Data_Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E58024166FF90098FF5D /* ProjectTwo_Data_Player.swift */; };
 		20921032241CF17F00497C74 /* ProjectOne_View_FlexibleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20921031241CF17F00497C74 /* ProjectOne_View_FlexibleText.swift */; };
+		20E55CB42427475A00925E66 /* ProjectTwo_Data_Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E55CB32427475900925E66 /* ProjectTwo_Data_Tile.swift */; };
+		20E55CB72427482000925E66 /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = 20E55CB62427482000925E66 /* map.json */; };
 		20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B024013201002EAD92 /* AppDelegate.swift */; };
 		20EB29B324013201002EAD92 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B224013201002EAD92 /* SceneDelegate.swift */; };
 		20EB29B524013201002EAD92 /* ProjectOneContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20EB29B424013201002EAD92 /* ProjectOneContentView.swift */; };
@@ -41,12 +44,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		202F3432242748810096A328 /* ProjectTwo_Data_World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwo_Data_World.swift; sourceTree = "<group>"; };
 		2084E5752414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOne_Data_Stopwatch.swift; sourceTree = "<group>"; };
 		2084E5782414E47C0098FF5D /* ProjectOne_View_ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOne_View_ClockView.swift; sourceTree = "<group>"; };
 		2084E57B241657BF0098FF5D /* ProjectTwoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwoContentView.swift; sourceTree = "<group>"; };
 		2084E57E24166F740098FF5D /* ProjectTwo_Data_Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwo_Data_Renderer.swift; sourceTree = "<group>"; };
 		2084E58024166FF90098FF5D /* ProjectTwo_Data_Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwo_Data_Player.swift; sourceTree = "<group>"; };
 		20921031241CF17F00497C74 /* ProjectOne_View_FlexibleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOne_View_FlexibleText.swift; sourceTree = "<group>"; };
+		20E55CB32427475900925E66 /* ProjectTwo_Data_Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwo_Data_Tile.swift; sourceTree = "<group>"; };
+		20E55CB62427482000925E66 /* map.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		20EB29AD24013201002EAD92 /* Personal_PlayGrounds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Personal_PlayGrounds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20EB29B024013201002EAD92 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20EB29B224013201002EAD92 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 		2084E57A2416577F0098FF5D /* Project_Two_RetroRampage */ = {
 			isa = PBXGroup;
 			children = (
+				20E55CB5242747E700925E66 /* Resources */,
 				2084E57D24166F270098FF5D /* Models */,
 				2084E57B241657BF0098FF5D /* ProjectTwoContentView.swift */,
 			);
@@ -117,10 +124,20 @@
 		2084E57D24166F270098FF5D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2084E57E24166F740098FF5D /* ProjectTwo_Data_Renderer.swift */,
 				2084E58024166FF90098FF5D /* ProjectTwo_Data_Player.swift */,
+				2084E57E24166F740098FF5D /* ProjectTwo_Data_Renderer.swift */,
+				20E55CB32427475900925E66 /* ProjectTwo_Data_Tile.swift */,
+				202F3432242748810096A328 /* ProjectTwo_Data_World.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		20E55CB5242747E700925E66 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				20E55CB62427482000925E66 /* map.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		20EB29A424013201002EAD92 = {
@@ -300,6 +317,7 @@
 			files = (
 				20EB29BD24013202002EAD92 /* LaunchScreen.storyboard in Resources */,
 				20EB29BA24013202002EAD92 /* Preview Assets.xcassets in Resources */,
+				20E55CB72427482000925E66 /* map.json in Resources */,
 				20EB29B724013202002EAD92 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,6 +351,8 @@
 				20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */,
 				2084E58124166FF90098FF5D /* ProjectTwo_Data_Player.swift in Sources */,
 				20EB29B324013201002EAD92 /* SceneDelegate.swift in Sources */,
+				20E55CB42427475A00925E66 /* ProjectTwo_Data_Tile.swift in Sources */,
+				202F3433242748810096A328 /* ProjectTwo_Data_World.swift in Sources */,
 				20EB29B524013201002EAD92 /* ProjectOneContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

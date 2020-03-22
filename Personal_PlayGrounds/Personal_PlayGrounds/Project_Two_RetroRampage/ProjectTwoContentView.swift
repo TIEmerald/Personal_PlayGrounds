@@ -9,18 +9,29 @@
 import Foundation
 import UIKit
 
+func loadMap() -> Tilemap {
+    let url = Bundle.main.url(forResource: "map", withExtension: "json")!
+    let data = try! Data(contentsOf: url)
+    return try! JSONDecoder().decode(Tilemap.self, from: data)
+}
+
+
 class ProjectTwoContentViewController: UIViewController {
     
     let imageView = UIImageView()
-    var player: Player = Player(
-        position: Vector(x: 4, y: 4),
-        velocity: Vector(x: 1, y: 1)
-    )
+    let panRecognizer = UIPanGestureRecognizer()
+    var world = World(player: Player(position: Vector(x: 4, y: 4), velocity: Vector(x: 0, y: 0)), map: loadMap())
     var previousTime: Double = CACurrentMediaTime()
+
+    var joystickVector: Vector {
+        let translation = panRecognizer.translation(in: view)
+        return Vector(x: Double(translation.x), y: Double(translation.y)) / 40
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpImageView()
+        view.addGestureRecognizer(panRecognizer)
         
         let displayLink = CADisplayLink(target: self, selector: #selector(update))
         displayLink.add(to: .main, forMode: .common)
@@ -29,9 +40,9 @@ class ProjectTwoContentViewController: UIViewController {
     @objc func update(_ displayLink: CADisplayLink) {
         var renderer = Renderer(width: 256, height: 256)
         let timestep = displayLink.timestamp - previousTime
-        player.update(timestep: timestep)
+        world.update(timestep: timestep, input: joystickVector)
+        renderer.draw(world: world)
         previousTime = displayLink.timestamp
-        renderer.draw(player: player)
         imageView.image = UIImage(bitmap: renderer.bitmap)
     }
 }

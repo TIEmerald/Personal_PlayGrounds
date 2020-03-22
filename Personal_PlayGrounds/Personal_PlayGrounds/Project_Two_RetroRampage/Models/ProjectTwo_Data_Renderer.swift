@@ -65,10 +65,22 @@ struct Renderer {
         bitmap = Bitmap(width: width, height: height, color: .white)
     }
     
-    mutating func draw(player: Player) {
+    mutating func draw(world: World) {
         let worldWidth = 8.0
-        let worldHeight = 8.0
         let scale = Double(bitmap.width) / worldWidth
-        bitmap.fill(rect: player.rect * scale, color: .blue)
+        
+        for y in 0..<world.map.height {
+            for x in 0..<world.map.width {
+                guard world.map[x, y].isWall else { continue }
+                let min = Vector(x: Double(x) * scale, y: Double(y) * scale)
+                let rect = Rect(
+                    min: min,
+                    max: min + Vector(x: scale, y: scale)
+                )
+                bitmap.fill(rect: rect, color: .white)
+            }
+        }
+        
+        bitmap.fill(rect: world.player.rect * scale, color: .blue)
     }
 }
