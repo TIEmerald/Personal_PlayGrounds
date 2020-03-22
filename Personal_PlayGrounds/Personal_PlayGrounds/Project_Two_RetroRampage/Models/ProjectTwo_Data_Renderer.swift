@@ -102,7 +102,7 @@ struct Renderer {
         }
 
         bitmap.fill(rect: world.player.rect * scale, color: .blue)
-        let end = (world.player.position + world.player.direction * world.player.velocity.length) * scale
+        let end = world.map.hitTest(Ray(origin: world.player.position, direction: world.player.direction)) * scale
         bitmap.drawLine(from: world.player.position * scale, to: end, color: .green)
     }
 }
