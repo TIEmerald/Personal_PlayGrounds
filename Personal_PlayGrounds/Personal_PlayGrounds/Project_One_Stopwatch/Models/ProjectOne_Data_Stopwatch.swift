@@ -24,16 +24,16 @@ struct StopwatchData {
         guard totalTime > 0 else { return [] }
         return _laps + [(currentLapTime, .regular)]
     }
-    
+
     var currentLapTime: TimeInterval {
         totalTime - lastLapEnd
     }
-    
+
     var totalTime: TimeInterval {
         guard let start = absoluteStartTime else { return additionalTime }
         return additionalTime + currentTime - start
     }
-    
+
     mutating func lap() {
         let lapTimes = _laps.map { $0.0 } + [currentLapTime]
         if let shortest = lapTimes.min(), let longest = lapTimes.max(), shortest != longest {
@@ -43,12 +43,12 @@ struct StopwatchData {
         }
         lastLapEnd = totalTime
     }
-    
+
     mutating func start(at time: TimeInterval) {
         currentTime = time
         absoluteStartTime = time
     }
-    
+
     mutating func stop() {
         additionalTime = totalTime
         absoluteStartTime = nil

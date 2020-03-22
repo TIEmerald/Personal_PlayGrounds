@@ -14,7 +14,7 @@ struct Player {
     var direction: Vector
     let radius: Double = 0.25
     let speed: Double = 2
-    
+
     func intersection(with map: Tilemap) -> Vector? {
         let playerRect = self.rect
         let rect = self.rect
@@ -22,12 +22,12 @@ struct Player {
         let minY = Int(rect.min.y)
         let maxX = Int(rect.max.x)
         let maxY = Int(rect.max.y)
-        var largestIntersection: Vector? = nil
+        var largestIntersection: Vector?
         for y in minY...maxY { // This nested for-loop may look expensive, but in practice, it never looks at more than four tiles.
             for x in minX...maxX {
                 let min = Vector(x: Double(x), y: Double(y))
                 let wallRect = Rect(min: min, max: min + Vector(x: 1, y: 1))
-                if map[x,y].isWall, let intersection = wallRect.intersection(with: playerRect) {
+                if map[x, y].isWall, let intersection = wallRect.intersection(with: playerRect) {
                     if intersection.length > (largestIntersection?.length ?? 0) {
                         largestIntersection = intersection
                     }
@@ -36,7 +36,7 @@ struct Player {
         }
         return largestIntersection
     }
-    
+
     mutating func update(timestep: Double, input: Vector) {
         if input.length > 0 {
             direction = input / input.length
@@ -47,7 +47,7 @@ struct Player {
         position.x.formTruncatingRemainder(dividingBy: 8) // todo
         position.y.formTruncatingRemainder(dividingBy: 8) // todo
     }
-    
+
     var rect: Rect {
         let half = Vector(x: radius, y: radius)
         return Rect(min: position - half, max: position + half)
@@ -69,47 +69,47 @@ extension Vector {
     static func +(lhs: Vector, rhs: Vector) -> Vector {
         return Vector(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
     }
-    
+
     static func - (lhs: Vector, rhs: Vector) -> Vector {
         return Vector(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
     }
-    
+
     static func * (lhs: Vector, rhs: Double) -> Vector {
         return Vector(x: lhs.x * rhs, y: lhs.y * rhs)
     }
-    
+
     static func / (lhs: Vector, rhs: Double) -> Vector {
         return Vector(x: lhs.x / rhs, y: lhs.y / rhs)
     }
-    
+
     static func * (lhs: Double, rhs: Vector) -> Vector {
         return Vector(x: lhs * rhs.x, y: lhs * rhs.y)
     }
-    
+
     static func / (lhs: Double, rhs: Vector) -> Vector {
         return Vector(x: lhs / rhs.x, y: lhs / rhs.y)
     }
-    
+
     static func += (lhs: inout Vector, rhs: Vector) {
         lhs.x += rhs.x
         lhs.y += rhs.y
     }
-    
+
     static func -= (lhs: inout Vector, rhs: Vector) {
         lhs.x -= rhs.x
         lhs.y -= rhs.y
     }
-    
+
     static func *= (lhs: inout Vector, rhs: Double) {
         lhs.x *= rhs
         lhs.y *= rhs
     }
-    
+
     static func /= (lhs: inout Vector, rhs: Double) {
         lhs.x /= rhs
         lhs.y /= rhs
     }
-    
+
     static prefix func - (rhs: Vector) -> Vector {
         return Vector(x: -rhs.x, y: -rhs.y)
     }
@@ -124,7 +124,7 @@ extension Rect {
     static func * (lhs: Rect, rhs: Double) -> Rect {
         return Rect(min: lhs.min * rhs, max: lhs.max * rhs)
     }
-    
+
     static func * (lhs: Double, rhs: Rect) -> Rect {
         return Rect(min: rhs.min * lhs, max: rhs.max * lhs)
     }

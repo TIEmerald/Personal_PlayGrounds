@@ -27,39 +27,39 @@ let numberFormatter: NumberFormatter = {
 final class Stopwatch: ObservableObject {
     @Published private var data = StopwatchData()
     private var timer: Timer?
-    
+
     var total: TimeInterval {
         data.totalTime
     }
-    
+
     var isRunning: Bool {
         data.absoluteStartTime != nil
     }
-    
+
     var laps: [(TimeInterval, LapType)] { data.laps }
-    
+
     func lap() {
         data.lap()
     }
-    
+
     func start() {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { [unowned self] timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { [unowned self] _ in
             self.data.currentTime = Date().timeIntervalSinceReferenceDate
         })
         data.start(at: Date().timeIntervalSinceReferenceDate)
     }
-    
+
     func stop() {
         timer?.invalidate()
         timer = nil
         data.stop()
     }
-    
+
     func reset() {
         stop()
         data = StopwatchData()
     }
-    
+
     deinit {
         stop()
     }
@@ -86,19 +86,19 @@ extension LapType {
 }
 
 extension View {
-    
+
     func visible(_ v: Bool) -> some View {
         self.opacity(v ? 1 : 0)
     }
-    
+
     func equalSize() -> some View {
         self.modifier(EqualSize())
     }
-    
+
     func equalSizes() -> some View {
         self.modifier(EqualSizes())
     }
-    
+
 }
 
 struct SizeKey: PreferenceKey {
@@ -119,7 +119,7 @@ extension EnvironmentValues {
     }
 }
 
-fileprivate struct EqualSize: ViewModifier {
+private struct EqualSize: ViewModifier {
     @Environment(\.size) private var size
     func body(content: Content) -> some View {
         content
@@ -130,22 +130,22 @@ fileprivate struct EqualSize: ViewModifier {
     }
 }
 
-fileprivate struct EqualSizes: ViewModifier {
+private struct EqualSizes: ViewModifier {
     @State var width: CGFloat?
     func body(content: Content) -> some View {
         content
             .onPreferenceChange(SizeKey.self, perform: { sizes in
                 self.width = sizes.map { $0.width }.max()
             })
-            .environment(\.size, width.map{ CGSize(width: $0, height: $0) })
+            .environment(\.size, width.map { CGSize(width: $0, height: $0) })
     }
 }
 
 struct ButtonCircle: ViewModifier {
-    
+
     let isPressed: Bool
-    @State var size: CGSize? = nil
-    
+    @State var size: CGSize?
+
     func body(content: Content) -> some View {
         let background = Circle()
             .fill()
@@ -158,13 +158,13 @@ struct ButtonCircle: ViewModifier {
                     .stroke(lineWidth: 2)
                     .foregroundColor(.white)
                     .padding(4))
-        
+
         let foreground = content
             .fixedSize()
             .padding(15)
             .equalSize()
             .foregroundColor(.white)
-        
+
         return foreground
             .frame(width: size?.width, height: size?.width)
             .background(background)
@@ -172,19 +172,19 @@ struct ButtonCircle: ViewModifier {
 }
 
 struct CircleStyle: ButtonStyle {
-    
-    @State var size: CGSize? = nil
-    
+
+    @State var size: CGSize?
+
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label.modifier(ButtonCircle(isPressed: configuration.isPressed))
-        
+
     }
 }
 
 struct ProjectOneContentView: View {
-    
+
     @ObservedObject var stopwatch = Stopwatch()
-    
+
     var body: some View {
         VStack {
             Clock(time: stopwatch.total, lapTime: stopwatch.laps.last?.0)

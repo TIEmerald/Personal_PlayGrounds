@@ -26,16 +26,16 @@ extension PTwoColor {
 struct Bitmap {
     let width: Int
     var pixels: [PTwoColor]
-    
+
     var height: Int {
         pixels.count / width
     }
-    
+
     init(width: Int, height: Int, color: PTwoColor) {
         self.width = width
         pixels = Array(repeating: color, count: width * height)
     }
-    
+
     subscript(x: Int, y: Int) -> PTwoColor {
         get {
             guard y < height, x < width, y >= 0, x >= 0 else { fatalError() }
@@ -56,7 +56,7 @@ extension Bitmap {
             }
         }
     }
-    
+
     mutating func drawLine(from: Vector, to: Vector, color: PTwoColor) {
         let difference = to - from
         let stepCount: Int
@@ -80,15 +80,15 @@ extension Bitmap {
 
 struct Renderer {
     var bitmap = Bitmap(width: 8, height: 8, color: .white)
-    
+
     init(width: Int, height: Int) {
         bitmap = Bitmap(width: width, height: height, color: .white)
     }
-    
+
     mutating func draw(world: World) {
         let worldWidth = 8.0
         let scale = Double(bitmap.width) / worldWidth
-        
+
         for y in 0..<world.map.height {
             for x in 0..<world.map.width {
                 guard world.map[x, y].isWall else { continue }
@@ -100,7 +100,7 @@ struct Renderer {
                 bitmap.fill(rect: rect, color: .black)
             }
         }
-        
+
         bitmap.fill(rect: world.player.rect * scale, color: .blue)
         let end = (world.player.position + world.player.direction * world.player.velocity.length) * scale
         bitmap.drawLine(from: world.player.position * scale, to: end, color: .green)

@@ -11,7 +11,7 @@ import Foundation
 struct World {
     var player: Player
     var map: Tilemap
-    
+
     mutating func update(timestep: Double, input: Vector) {
         player.update(timestep: timestep, input: input)
         if let intersection = player.intersection(with: map) {
@@ -19,4 +19,3 @@ struct World {
         }
     }
 }
-

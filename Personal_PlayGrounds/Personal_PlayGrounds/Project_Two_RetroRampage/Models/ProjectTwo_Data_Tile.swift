@@ -25,11 +25,11 @@ extension Tile {
 struct Tilemap: Decodable {
     let width: Int
     let tiles: [Tile]
-    
+
     subscript(x: Int, y: Int) -> Tile {
         tiles[y*width + x]
     }
-    
+
     var height: Int {
         tiles.count / width
     }

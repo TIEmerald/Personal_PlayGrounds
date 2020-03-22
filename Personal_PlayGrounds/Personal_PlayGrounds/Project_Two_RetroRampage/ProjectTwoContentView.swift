@@ -15,9 +15,8 @@ func loadMap() -> Tilemap {
     return try! JSONDecoder().decode(Tilemap.self, from: data)
 }
 
-
 class ProjectTwoContentViewController: UIViewController {
-    
+
     let imageView = UIImageView()
     let panRecognizer = UIPanGestureRecognizer()
     let joystickRadius = 40.0
@@ -31,16 +30,16 @@ class ProjectTwoContentViewController: UIViewController {
         panRecognizer.setTranslation(CGPoint(x: result.x * joystickRadius, y: result.y * joystickRadius), in: view)
         return result
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpImageView()
         view.addGestureRecognizer(panRecognizer)
-        
+
         let displayLink = CADisplayLink(target: self, selector: #selector(update))
         displayLink.add(to: .main, forMode: .common)
     }
-    
+
     @objc func update(_ displayLink: CADisplayLink) {
         var renderer = Renderer(width: 256, height: 256)
         let timestep = displayLink.timestamp - previousTime
@@ -70,11 +69,11 @@ extension UIImage {
         let alphaInfo = CGImageAlphaInfo.premultipliedLast
         let bytesPerPixel = MemoryLayout<PTwoColor>.stride
         let bytesPerRow = bitmap.width * bytesPerPixel
-        
+
         guard let providerRef = CGDataProvider(data: Data(bytes: bitmap.pixels, count: bitmap.height * bytesPerRow) as CFData) else {
             return nil
         }
-        
+
         guard let cgImage = CGImage(
             width: bitmap.width,
             height: bitmap.height,
@@ -90,7 +89,7 @@ extension UIImage {
             ) else {
                 return nil
         }
-        
+
         self.init(cgImage: cgImage)
     }
 }

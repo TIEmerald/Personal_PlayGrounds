@@ -12,7 +12,7 @@ extension CGPoint {
     init(angle: Angle, distance: CGFloat) {
         self = CGPoint(x: CGFloat(cos(angle.radians)) * distance, y: CGFloat(sin(angle.radians)) * distance)
     }
-    
+
     var size: CGSize {
         CGSize(width: x, height: y)
     }
@@ -22,7 +22,7 @@ extension CGRect {
     var center: CGPoint {
         CGPoint(x: midX, y: midY)
     }
-    
+
     init(center: CGPoint, radius: CGFloat) {
         self = CGRect(
             x: center.x - radius,
@@ -48,7 +48,7 @@ struct Pointer: Shape {
 
 struct Labels: View {
     var labels: [Int]
-    
+
     var body: some View {
         GeometryReader { proxy in
             ZStack {
@@ -66,7 +66,7 @@ struct Ticks: View {
     var subdivisions: Int
     var majorHeight: CGFloat = 15
     var totalTicks: Int { majorTicks * subdivisions }
-    
+
     func tick(at tick: Int) -> some View {
         VStack {
             Rectangle()
@@ -76,7 +76,7 @@ struct Ticks: View {
             Spacer()
         }.rotationEffect(Angle.degrees(Double(tick)/Double(totalTicks) * 360))
     }
-    
+
     var body: some View {
         ForEach(0..<totalTicks) { tick in
             self.tick(at: tick)
@@ -87,7 +87,7 @@ struct Ticks: View {
 struct Clock: View {
     var time: TimeInterval = 10
     var lapTime: TimeInterval?
-    
+
     var body: some View {
         ZStack {
             Ticks(majorTicks: 60, subdivisions: 4)

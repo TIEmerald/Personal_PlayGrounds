@@ -14,12 +14,12 @@ struct SizePreference: PreferenceKey {
     }
 }
 
-fileprivate struct FlexibleText: View {
+private struct FlexibleText: View {
     var base: Text
     var font: (CGFloat) -> Font
     @State private var widthAt100Points: CGFloat?
     @State private var height: CGFloat?
-    
+
     var body: some View {
         GeometryReader { proxy in
             self.base
@@ -34,7 +34,7 @@ fileprivate struct FlexibleText: View {
                     self.base
                         .fixedSize()
                         .font(self.font(100))
-                        
+
                         .overlay(GeometryReader { proxy in
                             Color.clear.preference(key: SizePreference.self, value: proxy.size)
                         })
@@ -54,7 +54,7 @@ extension Text {
 
 struct FlexibleText_ClockView_Previews: PreviewProvider {
     static var previews: some View {
-        
+
         Text("Hello, World!").flexible({ size in
             Font.system(size: size, weight: .thin)
         })
