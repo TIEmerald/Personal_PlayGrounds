@@ -79,16 +79,19 @@ extension Bitmap {
 }
 
 struct Renderer {
-    var bitmap = Bitmap(width: 8, height: 8, color: .white)
+    var bitmap = Bitmap(width: 8, height: 8, color: .black)
 
     init(width: Int, height: Int) {
-        bitmap = Bitmap(width: width, height: height, color: .white)
+        bitmap = Bitmap(width: width, height: height, color: .black)
     }
 
     mutating func draw(world: World) {
-        let worldWidth = 8.0
-        let scale = Double(bitmap.width) / worldWidth
+        let worldWidth = world.map.width
+        let scale = Double(bitmap.width) / Double(worldWidth)
+        let focalLength = 1.0
+        let planeWidth = 1.0
 
+        // Word
         for y in 0..<world.map.height {
             for x in 0..<world.map.width {
                 guard world.map[x, y].isWall else { continue }
@@ -97,12 +100,66 @@ struct Renderer {
                     min: min,
                     max: min + Vector(x: scale, y: scale)
                 )
-                bitmap.fill(rect: rect, color: .black)
+                bitmap.fill(rect: rect, color: .white)
             }
         }
 
+        // Players
         bitmap.fill(rect: world.player.rect * scale, color: .blue)
-        let end = world.map.hitTest(Ray(origin: world.player.position, direction: world.player.direction)) * scale
-        bitmap.drawLine(from: world.player.position * scale, to: end, color: .green)
+        
+        // View Rays
+        let viewCenter = world.player.position + world.player.direction * focalLength
+        let viewStart = viewCenter - world.player.direction.orthogonal * planeWidth / 2
+        var position = viewStart
+        let columns = 10
+        let step = world.player.direction.orthogonal * planeWidth / Double(columns)
+        for _ in 0..<columns {
+            let end = position - world.player.position
+            let ray = Ray(
+                origin: world.player.position,
+                direction: end / end.length
+            )
+            let lineEnd = world.map.hitTest(ray) * scale
+            bitmap.drawLine(from: world.player.position * scale, to: lineEnd, color: .green)
+            position += step
+        }
+    }
+}
+
+struct Renderer3D {
+    
+    var bitmap = Bitmap(width: 8, height: 8, color: .black)
+    
+    init(width: Int, height: Int) {
+        bitmap = Bitmap(width: width, height: height, color: .black)
+    }
+    
+    mutating func draw(world: World) {
+        let focalLength = 1.0
+        let planeWidth = 1.0
+        
+        // View Rays
+        let viewCenter = world.player.position + world.player.direction * focalLength
+        let viewStart = viewCenter - world.player.direction.orthogonal * planeWidth / 2
+        var position = viewStart
+        let columns = bitmap.width
+        let step = world.player.direction.orthogonal * planeWidth / Double(columns)
+        for column in 0..<columns {
+            let end = position - world.player.position
+            let ray = Ray(
+                origin: world.player.position,
+                direction: end / end.length
+            )
+            let wallIntersection = world.map.hitTest(ray)
+            position += step
+            
+            let wallHeight = 1.0
+            let wallDistance = wallIntersection - world.player.position
+            let height = focalLength * wallHeight / wallDistance.length * Double(bitmap.height)
+            
+            let wallStart = Vector(x: Double(column), y: Double(bitmap.height) / 2 - height / 2)
+            let wallEnd = Vector(x: Double(column), y: Double(bitmap.height) / 2 + height / 2)
+            bitmap.drawLine(from: wallStart, to: wallEnd, color: .white)
+        }
     }
 }
