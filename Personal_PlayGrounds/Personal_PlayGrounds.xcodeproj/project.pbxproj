@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E9992F9E38C65F028FC9106 /* Pods_Personal_PlayGroundsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2774B94E545907A5E073D5FF /* Pods_Personal_PlayGroundsTests.framework */; };
 		202F3433242748810096A328 /* ProjectTwo_Data_World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202F3432242748810096A328 /* ProjectTwo_Data_World.swift */; };
+		20470FFD24E2B4C200B98600 /* ProjectElementsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20470FFC24E2B4C200B98600 /* ProjectElementsContentView.swift */; };
 		2084E5762414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E5752414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift */; };
 		2084E5792414E47C0098FF5D /* ProjectOne_View_ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E5782414E47C0098FF5D /* ProjectOne_View_ClockView.swift */; };
 		2084E57C241657BF0098FF5D /* ProjectTwoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2084E57B241657BF0098FF5D /* ProjectTwoContentView.swift */; };
@@ -50,6 +51,7 @@
 		043D91B1BC2797D45A71085D /* Pods_Personal_PlayGrounds.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Personal_PlayGrounds.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		15CC37BD9D7F814FAFB77E23 /* Pods-Personal_PlayGroundsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Personal_PlayGroundsTests.debug.xcconfig"; path = "Target Support Files/Pods-Personal_PlayGroundsTests/Pods-Personal_PlayGroundsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		202F3432242748810096A328 /* ProjectTwo_Data_World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwo_Data_World.swift; sourceTree = "<group>"; };
+		20470FFC24E2B4C200B98600 /* ProjectElementsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectElementsContentView.swift; sourceTree = "<group>"; };
 		2084E5752414E2D20098FF5D /* ProjectOne_Data_Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOne_Data_Stopwatch.swift; sourceTree = "<group>"; };
 		2084E5782414E47C0098FF5D /* ProjectOne_View_ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOne_View_ClockView.swift; sourceTree = "<group>"; };
 		2084E57B241657BF0098FF5D /* ProjectTwoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTwoContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		202F3434242A31980096A328 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		20470FFB24E2B37800B98600 /* Project_Elements */ = {
+			isa = PBXGroup;
+			children = (
+				20470FFC24E2B4C200B98600 /* ProjectElementsContentView.swift */,
+			);
+			path = Project_Elements;
+			sourceTree = "<group>";
+		};
 		2084E5742414E29E0098FF5D /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +146,7 @@
 		2084E57A2416577F0098FF5D /* Project_Two_RetroRampage */ = {
 			isa = PBXGroup;
 			children = (
+				202F3434242A31980096A328 /* Categories */,
 				20E55CB5242747E700925E66 /* Resources */,
 				2084E57D24166F270098FF5D /* Models */,
 				2084E57B241657BF0098FF5D /* ProjectTwoContentView.swift */,
@@ -180,6 +198,7 @@
 		20EB29AF24013201002EAD92 /* Personal_PlayGrounds */ = {
 			isa = PBXGroup;
 			children = (
+				20470FFB24E2B37800B98600 /* Project_Elements */,
 				2084E57A2416577F0098FF5D /* Project_Two_RetroRampage */,
 				20EB29E02401383C002EAD92 /* Project_One_Stopwatch */,
 				20EB29B024013201002EAD92 /* AppDelegate.swift */,
@@ -238,7 +257,6 @@
 				15CC37BD9D7F814FAFB77E23 /* Pods-Personal_PlayGroundsTests.debug.xcconfig */,
 				84946AA0BCEFE3D0214E64B6 /* Pods-Personal_PlayGroundsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -463,6 +481,7 @@
 				2084E57F24166F740098FF5D /* ProjectTwo_Data_Renderer.swift in Sources */,
 				20EB29B124013201002EAD92 /* AppDelegate.swift in Sources */,
 				2084E58124166FF90098FF5D /* ProjectTwo_Data_Player.swift in Sources */,
+				20470FFD24E2B4C200B98600 /* ProjectElementsContentView.swift in Sources */,
 				20EB29B324013201002EAD92 /* SceneDelegate.swift in Sources */,
 				20E55CB42427475A00925E66 /* ProjectTwo_Data_Tile.swift in Sources */,
 				202F3433242748810096A328 /* ProjectTwo_Data_World.swift in Sources */,
